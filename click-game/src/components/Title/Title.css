@@ -4,7 +4,8 @@
   font-size: 3rem;
   text-decoration: underline;
   color:orange;
-  margin-bottom: 50px;
+  margin-bottom: 10px;
+  margin-top:0px; 
   font: weight 200;
   font-family: 'Times New Roman', Times, serif
 }

@@ -3,6 +3,8 @@ import FriendCard from "./components/FriendCard";
 import Wrapper from "./components/Wrapper";
 import Title from "./components/Title";
 import friends from "./friends.json";
+import Score from "./components/Score"
+import BestScore from "./components/BestScore"
 import "./App.css";
 
 class App extends Component {
@@ -12,10 +14,11 @@ class App extends Component {
       character.clicked = false; 
       return character; 
     }),
-    score: 0
+    score: 0,
+    bestScore:0
   };
-shuffleThisArray = (arr) => {
-  let friendsArray = arr;
+shuffleThisArray = () => {
+  const friendsArray = this.state.friends
   let ctr = friendsArray.length;
   let temp;
   let index;
@@ -34,20 +37,29 @@ shuffleThisArray = (arr) => {
       return friendsArray;
 }
 resetFriends = () => {
+  let bestScore;
   const friends = this.state.friends.map(character => {
     character.clicked = false; 
     return character; 
   })
-  this.setState({friends})
+  if (this.state.score > this.state.bestScore){
+    bestScore = this.state.score;
+  }
+  else{
+    bestScore = this.state.bestScore; 
+  }
+  const score = 0; 
+
+  this.setState({friends:friends, score:score, bestScore:bestScore})
   return true; 
 }
 hasClicked = id => {
   let endGame = false; 
-  let score = this.state.score; 
+  let score = this.state.score;
   const friends = this.state.friends.map( character => {
     if (character.id === id ){
       if(character.clicked){
-        score = 0; 
+        console.log(score);
         endGame = this.resetFriends();
       }
       else{
@@ -57,8 +69,6 @@ hasClicked = id => {
     }
     return character
   })
-  console.log(friends)
-
   if (!endGame){
     this.setState({score:score, friends:friends})
   }
@@ -70,8 +80,12 @@ hasClicked = id => {
     
     return (
       <Wrapper>
-        <Title>Clicky-Game</Title>
-        {this.shuffleThisArray(this.state.friends).map(friend => (
+        <Title>Anime-Clicky-Game</Title>
+        <div style={{width:"100%"}}>
+        <Score>Current Score: {this.state.score}</Score>
+        <BestScore>Best Score: {this.state.bestScore}</BestScore>
+        </div>
+        {this.shuffleThisArray().map(friend => (
           <FriendCard
             hasClicked = {this.hasClicked}
             id={friend.id}
